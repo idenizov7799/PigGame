@@ -16,22 +16,34 @@ init();
 document.querySelector(".btn-roll").addEventListener('click', function(){
     if(gamePlaying)
     {
-        // 1. Random number
-        var dice = Math.floor(Math.random() * 6) + 1;
-        // 2. Display result
         var diceDOM = document.querySelector(".dice");
         diceDOM.style.display = 'block';
-        diceDOM.src = 'dice-' + dice + '.png';   
+        diceDOM.src = 'animatedDice.gif';
+        setTimeout(function(){
+            // 1. Random number
+            var dice = Math.floor(Math.random() * 6) + 1;
+            // 2. Display result
+            var diceDOM = document.querySelector(".dice");        
+            diceDOM.src = 'dice-' + dice + '.png';   
 
-        // 3. Update the round score IF the rolled number was NOT a 1
-        if(dice !== 1){
-            roundScore += dice;
-            document.querySelector("#current-" + activePlayer).textContent = roundScore;
-        }else{
-            nextPlayer();
-        }
+            // 3. Update the round score IF the rolled number was NOT a 1
+            if(dice !== 1){
+                roundScore += dice;
+                document.querySelector("#current-" + activePlayer).textContent = roundScore;
+            }else{
+                document.getElementById("oops").style.display = 'block';
+                setTimeout(function(){
+                    document.getElementById("oops").style.display = 'none';
+                    nextPlayer();
+                }, 1500); 
+            }
+        }, 1500);
+        
+        
+     
     }
 });
+
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
     if(gamePlaying)
@@ -51,7 +63,8 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
         }else
         {
             // Next Player
-            nextPlayer();
+            nextPlayer();  
+            
         }
     }
 
@@ -94,4 +107,5 @@ function init(){
     document.querySelector('.player-1-panel').classList.remove('winner');
 
     document.querySelector('.player-0-panel').classList.add('active');
+    document.getElementById("oops").style.display = 'none'; 
 }
